@@ -7,6 +7,7 @@ const myServer = express()
 myServer.use(cors())
 myServer.use(express.json())
 myServer.use(router)
+myServer.use('/uploads', express.static('./uploads'))
 const PORT = 4003;
 myServer.listen(PORT,()=>{
     console.log(`My server is running in PORT ${PORT}`)

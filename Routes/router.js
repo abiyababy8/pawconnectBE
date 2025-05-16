@@ -17,4 +17,5 @@ router.post('/user/register', userController.registerUser)
 router.post('/user/login', userController.loginUser)
 router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.post('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.addUserPets)
+router.get('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.getUserPets)
 module.exports = router;
