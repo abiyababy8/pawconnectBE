@@ -1,5 +1,5 @@
-const { findOneAndUpdate } = require("../Models/userSchema")
-const users = require('../Models/userSchema')
+const { findOneAndUpdate } = require("../Models/userSchema.js")
+const users = require('../Models/userSchema.js')
 const jwt=require('jsonwebtoken')
 //user registration
 exports.registerUser=async (req,res)=>{

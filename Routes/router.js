@@ -3,10 +3,11 @@
 const express = require('express');
 const router = new express.Router();
 const jwtMiddleware = require('../Middlewares/jwtMiddleware')
-const multerMiddleware = require('../Middlewares/multerMiddleware')
+//const multerMiddleware = require('../Middlewares/multerMiddleware')
 const productController = require('../Controllers/productController')
 const userController = require('../Controllers/userController');
 const userPetController = require('../Controllers/userPetController')
+const lostPetController = require('../Controllers/lostPetController')
 const multerConfig = require('../Middlewares/multerMiddleware');
 
 //provide path 
@@ -18,4 +19,6 @@ router.post('/user/login', userController.loginUser)
 router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.post('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.addUserPets)
 router.get('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.getUserPets)
+router.put('/user/pets/:id', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.editUserPets)
+router.post('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), lostPetController.addLostPets)
 module.exports = router;
