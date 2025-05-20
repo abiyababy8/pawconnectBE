@@ -20,5 +20,8 @@ router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.post('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.addUserPets)
 router.get('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.getUserPets)
 router.put('/user/pets/:id', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.editUserPets)
+router.delete('/user/pets/:id', jwtMiddleware, userPetController.deleteUserPets)
 router.post('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), lostPetController.addLostPets)
+router.get('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), lostPetController.getLostPets)
+router.put('/lostpets/:id/location',jwtMiddleware,lostPetController.updateLostPetLocation);
 module.exports = router;

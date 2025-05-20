@@ -70,3 +70,13 @@ exports.editUserPets = async (req, res) => {
         res.status(401).json(err)
     }
 }
+exports.deleteUserPets = async (req, res) => {
+    const {id} = req.params
+    try {
+        const deletePet = await userPets.findByIdAndDelete({ _id: id })
+        res.status(200).json(deletePet)
+    }
+    catch (err) {
+        res.status(401).json(err)
+    }
+}
