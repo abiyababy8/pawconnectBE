@@ -9,6 +9,7 @@ const userController = require('../Controllers/userController');
 const userPetController = require('../Controllers/userPetController')
 const lostPetController = require('../Controllers/lostPetController')
 const adoptPetController = require('../Controllers/adoptPetController')
+const adoptionRequestController = require('../Controllers/adoptionRequestController')
 const multerConfig = require('../Middlewares/multerMiddleware');
 
 //provide path 
@@ -27,4 +28,5 @@ router.get('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), los
 router.put('/lostpets/:id/location', jwtMiddleware, lostPetController.updateLostPetLocation);
 router.post('/adopt/pets', jwtMiddleware, multerConfig.single('image'), adoptPetController.addAdoptPet)
 router.get('/adopt/pets', jwtMiddleware, multerConfig.single('image'), adoptPetController.getAdoptPet)
+router.post('/adopt/request', jwtMiddleware, adoptionRequestController.addAdoptionRequest)
 module.exports = router;
