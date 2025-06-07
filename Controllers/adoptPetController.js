@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 exports.addAdoptPet = async (req, res) => {
     const userId = req.payload
     const image = req.file.filename
-    const { name, type, description, owner, lastLocation } = req.body
+    const { name, type, description, owner, lastLocation, status } = req.body
     try {
         const existingLostPet = await adoptPets.findOne({ name: name })
         if (existingLostPet) {
@@ -20,7 +20,8 @@ exports.addAdoptPet = async (req, res) => {
                 owner: owner,
                 lastLocation: lastLocation,
                 image: image,
-                userId: userId
+                userId: userId,
+                status: status,
             })
             await newAdoptPet.save()
             res.status(201).json(`${name} added successfully`)
@@ -33,9 +34,19 @@ exports.addAdoptPet = async (req, res) => {
 }
 exports.getAdoptPet = async (req, res) => {
     try {
-        const userId = req.payload;
-        const adoptpets = await adoptPets.find({ userId: userId })
+        //const userId = req.payload;
+        const adoptpets = await adoptPets.find()
         res.status(200).json(adoptpets)
+    }
+    catch (err) {
+        res.status(401).json(err)
+    }
+}
+exports.getUserAdoptPetList = async (req, res) => {
+    try {
+        const userId = req.payload;
+        const useradoptpets = await adoptPets.find({ userId: userId })
+        res.status(200).json(useradoptpets)
     }
     catch (err) {
         res.status(401).json(err)

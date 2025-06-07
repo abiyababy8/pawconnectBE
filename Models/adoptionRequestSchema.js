@@ -13,10 +13,15 @@ const adoptionRequestSchema = new mongoose.Schema({
         require: true
     },
     pet: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'adoptPets',
+        required: true
+    },
+    userId: {
         type: String,
         require: true
     },
-    userId: {
+    status: {
         type: String,
         require: true
     }

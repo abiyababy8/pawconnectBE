@@ -11,7 +11,7 @@ exports.registerUser=async (req,res)=>{
             res.status(409).json("Account already exists. Please Login !!!")
         }
         else{
-            console.log("User not found!!!")
+            // console.log("User not found!!!")
             const newUser = new users({
                 username: username,
                 email: email,
@@ -62,3 +62,15 @@ exports.userDetails=async(req,res)=>{
     res.status(401).json(err)
   }
 }
+exports.editUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userdata = req.body;
+
+    const updatedUser = await users.findByIdAndUpdate(id, { ...userdata }, { new: true });
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(401).json(err);
+  }
+};

@@ -34,8 +34,8 @@ exports.addLostPets = async (req, res) => {
 }
 exports.getLostPets = async (req, res) => {
     try {
-        const userId = req.payload;
-        const lostpets = await lostPets.find({ userId: userId })
+        //const userId = req.payload;
+        const lostpets = await lostPets.find()
         res.status(200).json(lostpets)
     }
     catch (err) {
@@ -71,3 +71,13 @@ exports.updateLostPetLocation = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+exports.getUserLostPets=async(req,res)=>{
+    try {
+        const userId = req.payload;
+        const lostpets = await lostPets.find({userId:userId})
+        res.status(200).json(lostpets)
+    }
+    catch (err) {
+        res.status(401).json(err)
+    }
+}

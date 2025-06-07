@@ -32,6 +32,10 @@ const adoptPetSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    status: {
+        type: String,
+        require: true
+    },
 })
 const adoptPets = mongoose.model('adoptPets', adoptPetSchema)
 module.exports = adoptPets

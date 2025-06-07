@@ -32,6 +32,10 @@ const lostPetSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    status:{
+        type: String,
+        require: true
+    },
 })
 const lostPets = mongoose.model('lostPets', lostPetSchema)
 module.exports = lostPets
