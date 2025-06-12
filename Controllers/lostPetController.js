@@ -71,10 +71,54 @@ exports.updateLostPetLocation = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-exports.getUserLostPets=async(req,res)=>{
+exports.updateLostPetStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        if (!status) {
+            return res.status(400).json({ message: 'status is required' });
+        }
+
+        const updatedPet = await lostPets.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true } // return the updated document
+        );
+
+        if (!updatedPet) {
+            return res.status(404).json({ message: 'Lost pet not found' });
+        }
+
+        res.status(200).json({
+            message: 'status updated successfully',
+            updatedPet
+        });
+    } catch (error) {
+        console.error('Error updating lost pet location:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};  
+exports.deleteLostPet = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedPet = await lostPets.findByIdAndDelete(id);
+
+        if (!deletedPet) {
+            return res.status(404).json({ message: 'Lost pet not found' });
+        }
+
+        res.status(200).json({ message: `${deletedPet.name} deleted successfully` });
+    } catch (error) {
+        console.error('Error deleting lost pet:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.getUserLostPets = async (req, res) => {
     try {
         const userId = req.payload;
-        const lostpets = await lostPets.find({userId:userId})
+        const lostpets = await lostPets.find({ userId: userId })
         res.status(200).json(lostpets)
     }
     catch (err) {

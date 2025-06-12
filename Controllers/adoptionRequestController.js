@@ -42,3 +42,48 @@ exports.getUserAdoptionRequest=async(req,res)=>{
         res.status(401).json("Something happened")
     }
 }
+exports.updateAdoptionRequestStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        if (!status) {
+            return res.status(400).json({ message: 'Status is required' });
+        }
+
+        const updatedRequest = await adoptionRequests.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        ).populate('pet');
+
+        if (!updatedRequest) {
+            return res.status(404).json({ message: 'Adoption request not found' });
+        }
+
+        res.status(200).json({
+            message: 'Status updated successfully',
+            updatedRequest
+        });
+    } catch (err) {
+        console.error('Error updating adoption request status:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// ✅ Delete adoption request
+exports.deleteAdoptionRequest = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedRequest = await adoptionRequests.findByIdAndDelete(id);
+        if (!deletedRequest) {
+            return res.status(404).json({ message: 'Adoption request not found' });
+        }
+
+        res.status(200).json({ message: 'Adoption request deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting adoption request:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

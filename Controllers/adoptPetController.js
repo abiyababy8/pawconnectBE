@@ -52,3 +52,48 @@ exports.getUserAdoptPetList = async (req, res) => {
         res.status(401).json(err)
     }
 }
+exports.updateAdoptPetStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        if (!status) {
+            return res.status(400).json({ message: 'Status is required' });
+        }
+
+        const updatedPet = await adoptPets.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        );
+
+        if (!updatedPet) {
+            return res.status(404).json({ message: 'Adoptable pet not found' });
+        }
+
+        res.status(200).json({
+            message: 'Status updated successfully',
+            updatedPet
+        });
+    } catch (error) {
+        console.error('Error updating adoptable pet status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// ✅ Delete adopt pet listing
+exports.deleteAdoptPet = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedPet = await adoptPets.findByIdAndDelete(id);
+        if (!deletedPet) {
+            return res.status(404).json({ message: 'Adoptable pet not found' });
+        }
+
+        res.status(200).json({ message: 'Adoptable pet deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting adoptable pet:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
