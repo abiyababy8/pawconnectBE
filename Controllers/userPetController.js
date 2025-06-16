@@ -80,3 +80,12 @@ exports.deleteUserPets = async (req, res) => {
         res.status(401).json(err)
     }
 }
+exports.getAllUserPets = async (req, res) => {
+    try {
+        const alluserpets = await userPets.find().populate('userId','username');
+        res.status(200).json(alluserpets)
+    }
+    catch (err) {
+        res.status(401).json(err)
+    }
+}

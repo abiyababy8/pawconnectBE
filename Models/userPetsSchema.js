@@ -30,7 +30,8 @@ const userPetsSchema = new mongoose.Schema({
     },
     userId: {
         type: String,
-        require: true
+        require: true,
+        ref: 'users'
     },
 })
 const userPets = mongoose.model('userPets', userPetsSchema)
