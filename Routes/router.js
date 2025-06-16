@@ -21,6 +21,8 @@ router.post('/user/login', userController.loginUser)
 router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.put('/user/edit/:id',jwtMiddleware,userController.editUser)
 
+router.get('/user/allUserDetails',jwtMiddleware,userController.allUsers)
+
 router.post('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.addUserPets)
 router.get('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.getUserPets)
 router.put('/user/pets/:id', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.editUserPets)

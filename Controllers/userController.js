@@ -62,6 +62,14 @@ exports.userDetails=async(req,res)=>{
     res.status(401).json(err)
   }
 }
+exports.allUsers=async(req,res)=>{
+    try {
+        const userDetails= await users.find()
+        res.status(200).json(userDetails)
+    } catch (error) {
+         res.status(401).json(err)
+    }
+}
 exports.editUser = async (req, res) => {
   try {
     const { id } = req.params;
