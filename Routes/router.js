@@ -20,6 +20,7 @@ router.post('/user/register', userController.registerUser)
 router.post('/user/login', userController.loginUser)
 router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.put('/user/edit/:id',jwtMiddleware,userController.editUser)
+router.delete('/user/delete/:id',jwtMiddleware,userController.deleteUser)
 
 router.get('/user/allUserDetails',jwtMiddleware,userController.allUsers)
 
@@ -47,5 +48,7 @@ router.post('/adopt/request', jwtMiddleware, adoptionRequestController.addAdopti
 router.get('/user-adopt/request', jwtMiddleware, adoptionRequestController.getUserAdoptionRequest)
 router.put('/adopt/request/:id/status',jwtMiddleware,adoptionRequestController.updateAdoptionRequestStatus)
 router.delete('/adopt/request/:id',jwtMiddleware,adoptionRequestController.deleteAdoptionRequest)
+
+router.get('/all-adopt/request', jwtMiddleware, adoptionRequestController.getAllAdoptionRequest)
 
 module.exports = router;

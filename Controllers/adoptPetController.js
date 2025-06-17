@@ -81,7 +81,7 @@ exports.updateAdoptPetStatus = async (req, res) => {
     }
 };
 
-// ✅ Delete adopt pet listing
+// Delete adopt pet listing
 exports.deleteAdoptPet = async (req, res) => {
     const { id } = req.params;
 

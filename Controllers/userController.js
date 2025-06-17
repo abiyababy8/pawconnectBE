@@ -82,3 +82,15 @@ exports.editUser = async (req, res) => {
     res.status(401).json(err);
   }
 };
+exports.deleteUser=async(req,res)=>{
+exports.deleteUserPets = async (req, res) => {
+    const {id} = req.params
+    try {
+        const deleteUser = await users.findByIdAndDelete({ _id: id })
+        res.status(200).json(deleteUser)
+    }
+    catch (err) {
+        res.status(401).json(err)
+    }
+}
+}

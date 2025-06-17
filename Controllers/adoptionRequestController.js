@@ -42,6 +42,18 @@ exports.getUserAdoptionRequest=async(req,res)=>{
         res.status(401).json("Something happened")
     }
 }
+exports.getAllAdoptionRequest=async(req,res)=>{
+    try {
+
+        const allAdoptionRequests = await adoptionRequests.find().populate('pet')
+        res.status(200).json(allAdoptionRequests)
+    
+        
+    } catch (error) {
+         console.log("Some Error occured:", err)
+        res.status(401).json("Something happened")
+    }
+}
 exports.updateAdoptionRequestStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
@@ -71,7 +83,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
     }
 };
 
-// ✅ Delete adoption request
+//  Delete adoption request
 exports.deleteAdoptionRequest = async (req, res) => {
     const { id } = req.params;
 
