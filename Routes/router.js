@@ -13,14 +13,14 @@ const adoptionRequestController = require('../Controllers/adoptionRequestControl
 const multerConfig = require('../Middlewares/multerMiddleware');
 
 //provide path 
-router.post('/saveproducts', productController.addProjects)
-router.get('/getproducts', productController.getProducts)
 
 router.post('/user/register', userController.registerUser)
 router.post('/user/login', userController.loginUser)
 router.get('/user/userDetails', jwtMiddleware, userController.userDetails)
 router.put('/user/edit/:id',jwtMiddleware,userController.editUser)
+router.put('/user/edit/:id/role',jwtMiddleware,userController.editUserRole)
 router.delete('/user/delete/:id',jwtMiddleware,userController.deleteUser)
+
 
 router.get('/user/allUserDetails',jwtMiddleware,userController.allUsers)
 
