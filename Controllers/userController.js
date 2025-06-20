@@ -3,7 +3,7 @@ const users = require('../Models/userSchema.js')
 const jwt=require('jsonwebtoken')
 //user registration
 exports.registerUser=async (req,res)=>{
-    const {username,email,phone,password}=req.body
+    const {name,username,email,phone,password,role}=req.body
     try{
         const existingUser = await users.findOne({ email: email })
         if (existingUser) {
@@ -13,10 +13,12 @@ exports.registerUser=async (req,res)=>{
         else{
             // console.log("User not found!!!")
             const newUser = new users({
+                name:name,
                 username: username,
                 email: email,
                 phone:phone,
-                password: password
+                password: password,
+                role:role
             })
             await newUser.save()
             res.status(201).json(`${username} Registered successfully`)
@@ -67,7 +69,7 @@ exports.allUsers=async(req,res)=>{
         const userDetails= await users.find()
         res.status(200).json(userDetails)
     } catch (error) {
-         res.status(401).json(err)
+         res.status(401).json(error)
     }
 }
 exports.editUser = async (req, res) => {
