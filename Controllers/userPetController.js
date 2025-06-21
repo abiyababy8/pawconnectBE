@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 exports.addUserPets = async (req, res) => {
     const userId = req.payload
     const userPetImage = req.file.filename
-    const { name, type, age, health, nextVetAppointment, vaccinations } = req.body
+    const { name, type, age, health, nextVetAppointment, vaccinations, status } = req.body
     try {
         const existingUserPet = await userPets.findOne({ name: name })
         if (existingUserPet) {
@@ -23,7 +23,8 @@ exports.addUserPets = async (req, res) => {
                 nextVetAppointment: nextVetAppointment,
                 vaccinations: vaccinations,
                 userPetImage: userPetImage,
-                userId: userId
+                userId: userId,
+                status: status
             })
             await newPet.save()
             res.status(201).json(`${name} added successfully`)
@@ -71,7 +72,7 @@ exports.editUserPets = async (req, res) => {
     }
 }
 exports.deleteUserPets = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
     try {
         const deletePet = await userPets.findByIdAndDelete({ _id: id })
         res.status(200).json(deletePet)
@@ -87,5 +88,16 @@ exports.getAllUserPets = async (req, res) => {
     }
     catch (err) {
         res.status(401).json(err)
+    }
+}
+exports.updatePetStatus = async (req, res) => {
+    const { id } = req.params
+    const { status } = req.body
+    try {
+        const updatePet = await userPets.findByIdAndUpdate({ _id: id }, { status: status }, { new: true })
+        await updatePet.save()
+        res.status(200).json(updatePet)
+    } catch (error) {
+        res.status(401).json(error)
     }
 }

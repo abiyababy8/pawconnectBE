@@ -29,7 +29,7 @@ router.get('/user/pets', jwtMiddleware, multerConfig.single('userPetImage'), use
 router.put('/user/pets/:id', jwtMiddleware, multerConfig.single('userPetImage'), userPetController.editUserPets)
 router.delete('/user/pets/:id', jwtMiddleware, userPetController.deleteUserPets)
 router.get('/alluser/pets',userPetController.getAllUserPets)
-
+router.put('/user/pets/:id/status', jwtMiddleware, userPetController.updatePetStatus)
 
 router.post('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), lostPetController.addLostPets)
 router.get('/lost/pets', jwtMiddleware, multerConfig.single('lostPetImage'), lostPetController.getLostPets)
