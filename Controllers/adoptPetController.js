@@ -81,6 +81,40 @@ exports.updateAdoptPetStatus = async (req, res) => {
     }
 };
 
+//update pet adopt listing
+exports.updateAdoptPet = async (req, res) => {
+    const { id } = req.params;
+    const { name, type, description, lastLocation, owner } = req.body;
+
+    try {
+        let updateFields = { name, type, description, lastLocation, owner };
+
+        // Only update image if a new one is uploaded
+        if (req.file) {
+            updateFields.image = req.file.filename;
+        }
+
+        const updatedPet = await adoptPets.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+        );
+
+        if (!updatedPet) {
+            return res.status(404).json({ message: 'Adoptable pet not found' });
+        }
+
+        res.status(200).json({
+            message: 'Status updated successfully',
+            updatedPet
+        });
+    } catch (error) {
+        console.error('Error updating adoptable pet status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
 // Delete adopt pet listing
 exports.deleteAdoptPet = async (req, res) => {
     const { id } = req.params;
