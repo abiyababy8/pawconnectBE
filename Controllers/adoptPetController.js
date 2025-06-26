@@ -6,9 +6,9 @@ exports.addAdoptPet = async (req, res) => {
     const image = req.file.filename
     const { name, type, description, owner, lastLocation, status } = req.body
     try {
-        const existingLostPet = await adoptPets.findOne({ name: name })
-        if (existingLostPet) {
-            res.status(406).json(`${name} already exists`)
+        const existingPet = await adoptPets.findOne({ name: name, owner: owner })
+        if (existingPet) {
+            res.status(406).json(`You already added a pet with name ${name}`)
             console.log("Pet already exists")
         }
         else {
@@ -58,7 +58,7 @@ exports.updateAdoptPetStatus = async (req, res) => {
 
     try {
         if (!status) {
-            return res.status(400).json({ message: 'Status is required' });
+            return res.status(406).json({ message: 'Status is required' });
         }
 
         const updatedPet = await adoptPets.findByIdAndUpdate(
@@ -77,7 +77,7 @@ exports.updateAdoptPetStatus = async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating adoptable pet status:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };
 
@@ -110,7 +110,7 @@ exports.updateAdoptPet = async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating adoptable pet status:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };
 
@@ -128,6 +128,6 @@ exports.deleteAdoptPet = async (req, res) => {
         res.status(200).json({ message: 'Adoptable pet deleted successfully' });
     } catch (err) {
         console.error('Error deleting adoptable pet:', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };

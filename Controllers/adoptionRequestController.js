@@ -60,7 +60,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
 
     try {
         if (!status) {
-            return res.status(400).json({ message: 'Status is required' });
+            return res.status(406).json({ message: 'Status is required' });
         }
 
         const updatedRequest = await adoptionRequests.findByIdAndUpdate(
@@ -79,7 +79,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
         });
     } catch (err) {
         console.error('Error updating adoption request status:', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };
 
@@ -96,6 +96,6 @@ exports.deleteAdoptionRequest = async (req, res) => {
         res.status(200).json({ message: 'Adoption request deleted successfully' });
     } catch (err) {
         console.error('Error deleting adoption request:', err);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };

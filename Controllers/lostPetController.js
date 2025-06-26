@@ -6,9 +6,9 @@ exports.addLostPets = async (req, res) => {
     const lostPetImage = req.file.filename
     const { name, type, description, owner, location, status } = req.body
     try {
-        const existingLostPet = await lostPets.findOne({ name: name })
+        const existingLostPet = await lostPets.findOne({ name: name, owner: owner })
         if (existingLostPet) {
-            res.status(406).json(`${name} already exists`)
+            res.status(406).json(`${name} already listed by you`)
             console.log("Pet already exists")
         }
         else {
@@ -49,13 +49,13 @@ exports.updateLostPetLocation = async (req, res) => {
 
     try {
         if (!location) {
-            return res.status(400).json({ message: 'Location is required' });
+            return res.status(406).json({ message: 'Location is required' });
         }
 
         const updatedPet = await lostPets.findByIdAndUpdate(
             id,
             { location },
-            { new: true } // return the updated document
+            { new: true }
         );
 
         if (!updatedPet) {
@@ -68,7 +68,7 @@ exports.updateLostPetLocation = async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating lost pet location:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };
 exports.updateLostPetStatus = async (req, res) => {
@@ -83,7 +83,7 @@ exports.updateLostPetStatus = async (req, res) => {
         const updatedPet = await lostPets.findByIdAndUpdate(
             id,
             { status },
-            { new: true } // return the updated document
+            { new: true }
         );
 
         if (!updatedPet) {
@@ -96,9 +96,9 @@ exports.updateLostPetStatus = async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating lost pet location:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
-};  
+};
 exports.deleteLostPet = async (req, res) => {
     const { id } = req.params;
 
@@ -112,7 +112,7 @@ exports.deleteLostPet = async (req, res) => {
         res.status(200).json({ message: `${deletedPet.name} deleted successfully` });
     } catch (error) {
         console.error('Error deleting lost pet:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(401).json({ message: 'Internal server error' });
     }
 };
 exports.getUserLostPets = async (req, res) => {

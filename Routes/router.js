@@ -3,8 +3,6 @@
 const express = require('express');
 const router = new express.Router();
 const jwtMiddleware = require('../Middlewares/jwtMiddleware')
-//const multerMiddleware = require('../Middlewares/multerMiddleware')
-const productController = require('../Controllers/productController')
 const userController = require('../Controllers/userController');
 const userPetController = require('../Controllers/userPetController')
 const lostPetController = require('../Controllers/lostPetController')
